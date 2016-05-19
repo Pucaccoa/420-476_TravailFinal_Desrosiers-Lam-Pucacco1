@@ -1,0 +1,67 @@
+﻿@model _420_476_ProjetFinal_Desrosiers_Pucacco_Lam.Offer
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Supprimer</h2>
+
+<h3>Etes vous sure de vouloir supprimer cette offre?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Texte:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.text)
+        </dd>
+
+        <dt>
+            Titre:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+
+        <dt>
+            Date de creation:
+        </dt>
+
+        <dd>
+            @Model.dateCreated.Year /
+            @Model.dateCreated.Month /
+            @Model.dateCreated.Day
+        </dd>
+
+        <dt>
+            Image:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.image)
+        </dd>
+
+        <dt>
+            Categorie:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.categoryName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Offers", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" />
+            <a class="btn btn-default" href="@Url.Action("MyOffersAndRequests", "Account")">Retour</a>
+
+        </div>
+    }
+</div>

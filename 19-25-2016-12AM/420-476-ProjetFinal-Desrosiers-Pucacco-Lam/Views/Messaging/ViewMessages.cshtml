@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "ViewMessages";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#receivedDiv").hide();
+
+        $("#sentDiv").hide();
+
+        $("#receivedHeader").click(function () {
+            $("#receivedDiv").slideToggle("fast");
+        })
+
+        $("#sentHeader").click(function () {
+            $("#sentDiv").slideToggle("fast");
+        })
+
+    });
+</script>
+<h2>Mes messages</h2>
+<h4>Cliquer sur (Messages reçu ou Messages envoyés)</h4>
+
+<div id="receivedMessagesDiv">
+    <a>
+        <h3 id="receivedHeader" style="color:darkorange">Messages reçus</h3>
+    </a>
+    <div id="receivedDiv">
+        @foreach (var item in ViewBag.Received)
+        {
+            <div class="row" style="border: solid 1pt orange; border-collapse:collapse">
+                <div class="col-md-12" style="border: solid 1pt orange; border-collapse:collapse">
+                    <p style="font-weight:bold; color:orange">Sender: "@item.User.firstName"   |   Subject: "@item.title"</p>
+                    <div>
+                        <p>@item.message1</p>
+                        @using (Html.BeginForm("ReplyToMessage", "Messaging", FormMethod.Get))
+                        {
+                            <input type="hidden" name="targetUserId" value="@(item.sourceUserId)" />
+                            <input type="hidden" name="title" value="@(item.title)" />
+                            <input type="submit" value="Répondre" />
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="sentMessagesDiv">
+        <a>
+            <h3 id="sentHeader" style="color:darkorange">Messages envoyés</h3>
+        </a>
+        <div id="sentDiv">
+            @foreach (var item in ViewBag.Sent)
+            {
+                <div class="row" style="border: solid 1pt orange; border-collapse:collapse">
+                    <div class="col-md-12" style="border: solid 1pt orange; border-collapse:collapse">
+                        <p style="font-weight:bold; color:orange">Expéditeur: "@item.User.firstName"   |   Sujet: "@item.title"</p>
+                        <div>
+                            <p>@item.message1</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

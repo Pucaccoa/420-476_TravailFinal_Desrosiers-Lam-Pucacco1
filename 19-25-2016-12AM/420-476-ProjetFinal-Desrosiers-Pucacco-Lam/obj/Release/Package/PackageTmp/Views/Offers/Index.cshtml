@@ -1,0 +1,102 @@
+﻿@model IEnumerable<_420_476_ProjetFinal_Desrosiers_Pucacco_Lam.Offer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+@using (Html.BeginForm("Index", "Offers", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Filtrer votre recherche</td>
+        </tr>
+        <tr>
+            <td>Recherche par titre</td>
+            <td>
+                <input type="text" name="offerTitle" id="offerTitle" />
+            </td>
+            <td>Categories</td>
+            <td>
+                @Html.DropDownList("categoryId", (SelectList)ViewBag.CategoryID, htmlAttributes: new { @class = "form-control" })
+            </td>
+            <td><input type="submit" value="Search" /></td>
+            <td>@Html.ActionLink("Show all offers", "Index", "Offers")</td>
+        </tr>
+    </table>
+}
+<div class="row">
+
+    <div class="col-md-8">
+        @foreach (var item in Model)
+        {
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="@Url.Action("Details","Offers",new { id = item.id})" style="text-decoration:none;color:black">
+                        <h1>
+                            @Html.DisplayFor(modelItem => item.title) (Offre)
+                        </h1>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div style="display:table !important;width:100%;">
+                    <div class="col-md-5" style="display:table-cell !important">
+                        <a href="@Url.Action("Details","Offers",new { id = item.id})" style="text-decoration:none;color:black">
+                            
+                            @if (item.image != null)
+                            {
+                                <img src="~/Content/Images/@item.image" style="border:solid 3px black;width:60%;height:50%">
+                            }
+                            else
+                            {
+                                <img src="~/Content/AppPhoto/DefaultPhoto.jpg" style="border:solid 3px black;width:60%;height:50%">
+                            }
+                        </a>
+                    </div>
+                    <a href="@Url.Action("Details","Offers",new { id = item.id})" style="text-decoration:none;color:black">
+                        <div class="col-md-7 " style="display:table-cell !important;border:3px solid black;padding-bottom: 15%;">
+                            <p style="">
+                                @Html.DisplayFor(modelItem => item.text)
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-3" style="border:1px solid black; margin-left:20px;">
+        <h2 style="border:1px solid black">
+            Historique
+        </h2>
+        <div id="ContentPlace">
+            <script>
+                $(document).ready(function () {
+                    var val;
+                    $.ajax({
+                        type: "POST",
+                        url: "/Offers/getOfferList",
+                        data: val,
+                        datatype: "html",
+                        success: function (data) {
+
+                            $("#ContentPlace").html(data);
+
+                        }
+                    });
+                })
+
+            </script>
+        </div>
+    </div>
+</div>
+@for (var i = 0; i <= (Math.Ceiling(((double)(ViewBag.nbOffer / 5)))); i++)
+{
+    <a href="@Url.Action("Index","Offers",new { page = (i+1)})"> @(i + 1) </a>
+}
+

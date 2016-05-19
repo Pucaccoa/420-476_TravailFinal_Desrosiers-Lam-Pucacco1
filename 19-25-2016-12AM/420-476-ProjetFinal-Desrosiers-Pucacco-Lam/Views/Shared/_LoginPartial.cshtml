@@ -1,0 +1,35 @@
+﻿
+@if (Session["ConnectedUserID"] != null || Session["AdminConnected"] != null)
+{
+    using (Html.BeginForm("LogOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li style="color:lightgray">Bonjour @Html.Raw(Session["ConnectedUserName"])</li>
+            @if (Session["ConnectedUserID"] != null)
+            {
+                <li>@Html.ActionLink("Voir mes offres/demandes", "MyOffersAndRequests", "Account")</li>
+                <li>@Html.ActionLink("Modifier son profil", "EditProfile", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                <li>@Html.ActionLink("Se déconnecter", "LogOut", "Account", routeValues: null, htmlAttributes: new { id = "signoutLink" })</li>
+                <li>@Html.ActionLink("Mes messages", "ViewMessages", "Messaging")</li>
+            }
+            else if(Session["AdminConnected"] != null) {
+                <li>@Html.ActionLink("Gérer requests", "Index", "Requests")</li>
+                <li>@Html.ActionLink("Gérer offers", "Index", "Offers")</li>
+                <li>@Html.ActionLink("Gérer Categories","Index","Categories")</li>
+                <li>@Html.ActionLink("Se déconnecter", "LogOut", "Account", routeValues: null, htmlAttributes: new { id = "signoutLink" })</li>
+            }
+
+           @* <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>*@
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("S’inscrire", "SignUp", "Account", routeValues: null, htmlAttributes: new { id = "signupLink" })</li>
+        <li>@Html.ActionLink("Se connecter", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+

@@ -1,0 +1,60 @@
+﻿@model _420_476_ProjetFinal_Desrosiers_Pucacco_Lam.Message
+
+@{
+    ViewBag.Title = "Message";
+}
+
+<h2>Message</h2>
+
+@using (Html.BeginForm("Message", "Messaging", FormMethod.Post, new { id = "msgForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Envoyer un message</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Sujet", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="title" id="title" value="@(ViewBag.msgTitle)" style="width:800px;" readonly>
+                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Message", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea name="message1" form="msgForm" style="width:800px; height:200px"></textarea>
+                @Html.ValidationMessageFor(model => model.message1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" value="@(ViewBag.CreatorId)" name="targetUserId" />
+                @if (ViewBag.returnType == "Offer")
+                {
+                    <input type="hidden" name="msgType" value="Offer" />
+                }
+                else {
+                    <input type="hidden" name="msgType" value="Request" />
+                }
+                <input type="hidden" name="itemId" value="@(ViewBag.returnItemId)" />
+                <input type="submit" value="Envoyer" class="btn btn-default" />
+                @if (ViewBag.SendFail != null)
+                {
+                    <br /><label>@Html.Raw(ViewBag.SendFail)</label>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Redirect", "Messaging", FormMethod.Post))
+{
+    <input type="hidden" name="itemId" value="@(ViewBag.returnItemId)" />
+    <input type="hidden" name="msgType" value="@(ViewBag.returnType)" />
+    <input type="submit" value="Retour à l'offre" class="btn btn-default" />
+}

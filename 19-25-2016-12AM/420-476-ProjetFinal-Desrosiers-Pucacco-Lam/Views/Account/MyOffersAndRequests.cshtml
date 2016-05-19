@@ -1,0 +1,88 @@
+﻿<h1>Mes offres et requetes: </h1>
+
+<div name="Everything">
+    <div name="Offers">
+        <h1>Mes offres: </h1> <a style="color:black; text-decoration: none; border: solid 1px black; border-radius: 5px; padding: 5px; background-color:orange ;" href="@Url.Action("Create" , "Offers")"> Créer une nouvelle offre!</a>
+
+        @foreach (var item in ViewBag.OffersList)
+        {
+            <a href="@Url.Action("Details","Offers",new { id = item.id})" style="text-decoration:none;color:black">
+
+                <div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>
+                                @item.title
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="display:table !important;width:100%;">
+                            <div class="col-md-5" style="display:table-cell !important">
+                                @if (item.image != null)
+                                {
+                                    <img style="width:50%;height:50%;max-height:300px;" src="/Content/Images/@item.image" alt="img" />
+                                }
+                                else
+                                {
+                                    <img style="width:50%;height:50%;" src="~/Content/AppPhoto/DefaultPhoto.jpg" alt="img" />
+                                }
+                            </div>
+                            <div class="col-md-7 " style="display:table-cell !important;border:3px solid black; padding-bottom: 15%;">
+                                @item.text
+
+                            </div>
+                        </div>
+                    </div>
+                    <a style="color:black; text-decoration: none; border: solid 1px black; border-radius: 2px; padding: 3px; background-color:orange ;" href="@Url.Action("Edit","Offers",new { id = item.id})">Modifier</a>
+                    --
+                    <a style="color:black; text-decoration: none; border: solid 1px black; border-radius: 2px; padding: 3px; background-color: orange;" href="@Url.Action("Delete", "Offers", new { id = item.id })" class="btn btn-default"> Supprimer</a>
+                </div>
+            </a>
+        }
+    </div>
+
+    <div style="font-weight: bold; color: orange;">____________________________________________________________________________________________________________________________________________________</div>
+    <div name="Requests">
+        <h1>Mes requetes: </h1> <a style="color:black; text-decoration: none; border: solid 1px black; border-radius: 5px; padding: 5px; background-color:orange ;" href="@Url.Action("Create" , "Requests")"> Créer une nouvelle requete!</a>
+        @foreach (var item2 in ViewBag.RequestsList)
+        {
+            <a href="@Url.Action("Details","Requests",new { id = item2.id})" style="text-decoration:none;color:black">
+
+                <div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>
+                                @item2.title
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="display:table !important;width:100%;">
+                            <div class="col-md-5" style="display:table-cell !important">
+                                @if (item2.image != null)
+                                {
+                                    <img style="width:50%;height:50%;max-height:300px;" src="~/Content/Images/@item2.image" alt="img" />
+                                }
+                                else
+                                {
+                                    <img style="width:50%;height:50%;" src="/Content/AppPhoto/DefaultPhoto.jpg" alt="img" />
+                                }
+                                </div>
+                            <div class="col-md-7 " style="display:table-cell !important;border:3px solid black; padding-bottom: 15%;">
+                                <p style="">
+                                    @item2.text
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="color:black; text-decoration: none; border: solid 1px black; border-radius: 2px; padding: 3px; background-color: orange;" href="@Url.Action("Edit","Requests",new { id = item2.id})">Modifier</a>
+                    --
+                    <a style="color:black; text-decoration: none; border: solid 1px black; border-radius: 2px; padding: 3px; background-color: orange;" href="@Url.Action("Delete", "Requests", new { id = item2.id })">Supprimer</a>
+                </div>
+
+            </a>
+        }
+    </div>
+</div>
+

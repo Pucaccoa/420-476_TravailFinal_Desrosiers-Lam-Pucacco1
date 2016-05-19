@@ -1,0 +1,43 @@
+﻿@model _420_476_ProjetFinal_Desrosiers_Pucacco_Lam.Message
+
+
+<h2>Répondre à un message</h2>
+@using (Html.BeginForm("ReplyToMessage", "Messaging", FormMethod.Post, new { id = "msgForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Envoyer un message</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Sujet", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="title" id="title" value="RE: @(ViewBag.Title)" style="width:800px;">
+                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Message", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea name="message1" form="msgForm" style="width:800px; height:200px"></textarea>
+                @Html.ValidationMessageFor(model => model.message1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" value="@(ViewBag.TargetUserId)" name="targetUserId" />
+                <input type="submit" value="Envoyer" class="btn btn-default" />
+                @if (ViewBag.SendFail != null)
+                {
+                    <br /><label>@Html.Raw(ViewBag.SendFail)</label>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<a class="btn btn-default" href="@Url.Action("ViewMessages", "Messaging")">Retour aux messages</a>

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<_420_476_ProjetFinal_Desrosiers_Pucacco_Lam.Request>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+@*
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#offerTitle").autocomplete({
+                source: function(request,response) {
+                    $.ajax({
+                        url: "/Request/RequestAutoComplete",
+                        type: "POST",
+                        dataType: "json",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.title, value: item.title };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
+    </script>*@
+
+<h2>Request</h2>
+
+@using (Html.BeginForm("Index", "Requests", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Filtrer votre recherche</td>
+        </tr>
+        <tr>
+            <td>Recherche par titre</td>
+            <td>
+                <input type="text" name="offerTitle" id="offerTitle" />
+            </td>
+            <td>Categories</td>
+            <td>
+                @Html.DropDownList("categoryId", (SelectList)ViewBag.CategoryID, htmlAttributes: new { @class = "form-control" })
+            </td>
+            <td><input type="submit" value="Search" /></td>
+            <td>@Html.ActionLink("Lister toutes les demandes", "Index", "Requests")</td>
+        </tr>
+    </table>
+}<div class="container">
+
+
+    <div class="row">
+        <div class="col-md-8">
+            @foreach (var item in Model)
+            {
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="@Url.Action("Details","Requests",new { id = item.id})" style="text-decoration:none;color:black">
+                            <h1>
+                                @Html.DisplayFor(modelItem => item.title) (Demande)
+                            </h1>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="display:table !important;width:100%;">
+                        <div class="col-md-5" style="display:table-cell !important">
+                            <a href="@Url.Action("Details","Requests",new { id = item.id})" style="text-decoration:none;color:black">
+                                @if (item.image != null)
+                                {
+
+                                <img src="~/Content/images/@item.image" style="border:solid 3px black;width:60%;height:50%">
+                                }
+                                else
+                                {
+                                    <img src="~/Content/AppPhoto/DefaultPhoto.jpg"/>
+                                }
+                            </a>
+                        </div>
+                        <a href="@Url.Action("Details","Requests",new { id = item.id})" style="text-decoration:none;color:black">
+                            <div class="col-md-7 " style="display:table-cell !important;border:3px solid black;padding-bottom: 15%;">
+                                <p style="">
+                                    @Html.DisplayFor(modelItem => item.text)
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+
+            }
+
+        </div>
+        <div class="col-md-3" style="border:1px solid black; margin-left:20px;">
+            <h2 style="border:1px solid black">
+                Historique
+            </h2>
+            <div id="ContentPlace">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var val;
+            $.ajax({
+                type: "POST",
+                url: "/Requests/getRequestList",
+                data: val,
+                datatype: "html",
+                success: function (data) {
+
+                    $("#ContentPlace").html(data);
+
+                }
+            });
+        })
+
+    </script>
+    </div>
+    @*
+        |
+        @Html.ActionLink("Details", "Details", new { id=item.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.id })
+    *@
+    @for (var i = 0; i <= ((Math.Ceiling(((double)(ViewBag.nbRequest / 5))))); i++)
+    {
+        <a href="@Url.Action("Index","Requests",new { page = (i+1)})"> @(i + 1) </a>
+    }
